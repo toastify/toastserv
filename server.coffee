@@ -91,6 +91,7 @@ fs = require 'fs'
 wssServer = https.createServer
   key: fs.readFileSync './certs/toast.clive.io.key'
   cert: fs.readFileSync './certs/2_toast.clive.io.crt'
+  passphrase: process.env.SSL_PASS
 .listen 9001
 
 binaryServer = BinaryServer {server: wssServer}
