@@ -1,6 +1,5 @@
 require('dotenv').config()
 express = require 'express'
-http = require('http').Server app
 helmet = require 'helmet'
 bodyParser = require 'body-parser'
 bluebird = require 'bluebird'
@@ -87,7 +86,14 @@ app.listen PORT, 'localhost', ->
   .catch console.error
 ###
 
-binaryServer = BinaryServer {port: 9001}
+https = require 'https'
+fs = require 'fs'
+wssServer = https.createServer
+  key: fs.readFileSync './certs/toast.clive.io.key'
+  cert: fs.readFileSync './certs/2_toast.clive.io.crt'
+.listen 9001
+
+binaryServer = BinaryServer {server: wssServer}
 console.log JSON.stringify binaryServer
 
 binaryServer.on 'connection', (client) ->
