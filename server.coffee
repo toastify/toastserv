@@ -39,7 +39,7 @@ app.post '/update', ghHandler, (req, res) ->
   if req.headers['x-github-event'] is not 'push'
     res.sendStatus 200
   else
-    exec 'git pull && npm install && npm prune', (error, stdout, stderr) ->
+    exec 'git fetch --all && git reset --hard origin/master && npm install && npm prune', (error, stdout, stderr) ->
       if error then console.log error
       console.log stdout, stderr
       res.sendStatus 200
