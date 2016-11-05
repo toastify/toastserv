@@ -22,6 +22,8 @@ callPhoton = (name, argument) ->
     name: name
     argument: argument
     auth: process.env.PHOTON_TOKEN
+  .then (data) ->
+    console.log 'Sent ' + name + '(' + argument + ') = ' + JSON.stringify data.body.return_value
 
 app.get '/', (req, res) ->
 	res.sendFile 'static/index.html', { root: '.' }
@@ -30,7 +32,6 @@ app.post '/toast/:func', (req, res) ->
   callPhoton req.params.func, req.body.args
   .then (data) ->
     res.sendStatus 200
-    console.log 'Sent ' + req.params.func + '(' + req.body.args + ')'
   .catch (err) ->
     res.sendStatus 500
     console.log 'Error sending ' + req.params.func + '(' + req.body.args + '):', err.body.error
