@@ -1,0 +1,24 @@
+{
+  "name": "toastserv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "coffee server.coffee",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toastify/toastserv.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toastify/toastserv/issues"
+  },
+  "homepage": "https://github.com/toastify/toastserv#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "helmet": "^3.1.0"
+  }
+}
