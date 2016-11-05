@@ -87,8 +87,8 @@ app.listen PORT, 'localhost', ->
   .catch console.error
 ###
 
-binaryServer = BinaryServer {port: 9001}, ->
-  console.log "BinaryServer connected"
+binaryServer = BinaryServer {port: 9001}
+console.log JSON.stringify binaryServer
 
 binaryServer.on 'connection', (client) ->
   console.log 'new connection'
