@@ -3,7 +3,6 @@ express = require 'express'
 helmet = require 'helmet'
 bodyParser = require 'body-parser'
 bluebird = require 'bluebird'
-Particle = require 'particle-api-js'
 exec = require('child_process').exec
 ghHandler = require('github-webhook-middleware')
   secret: process.env.GH_SECRET
@@ -25,17 +24,7 @@ app = express()
 app.use helmet()
 app.use bodyParser.urlencoded {extended: false}
 
-particle = new Particle()
-
-callPhoton = (name, argument) ->
-  particle.callFunction
-    deviceId: process.env.PHOTON_ID
-    name: name
-    argument: argument
-    auth: process.env.PHOTON_TOKEN
-  .then (data) ->
-    console.log 'Sent ' + name + '(' + argument + ') = ' + JSON.stringify data.body.return_value
-
+callPhoton = require './lib/photon'
 
 app.get '/', (req, res) ->
 	res.sendFile 'static/index.html', { root: '.' }
