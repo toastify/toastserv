@@ -13,22 +13,24 @@ app.use bodyParser.urlencoded {extended: false}
 
 particle = new Particle()
 
+callPhoton = (name, argument) ->
+  particle.callFunction
+    deviceId: process.env.PHOTON_ID
+    name: name
+    argument: argument
+    auth: process.env.PHOTON_TOKEN
+
 app.get '/', (req, res) ->
 	res.sendFile 'static/index.html', { root: '.' }
 
-app.post '/toast', (req, res) ->
-  console.log 'Received request, with value: {', req.body.args, '}'
-  particle.callFunction
-    deviceId: process.env.PHOTON_ID
-    name: 'led'
-    argument: req.body.args
-    auth: process.env.PHOTON_TOKEN
+app.post '/toast/:func', (req, res) ->
+  callPhoton req.params.func, req.body.args
   .then (data) ->
-    console.log 'Success.'
-    res.send 'Success.'
+    res.send 200, 'Success.'
+    console.log 'Sent ' + req.params.func + '(' + req.body.args + ')'
   .catch (err) ->
-    console.log 'Oops ' + JSON.stringify err
-    res.send 'Oops ' + JSON.stringify err
+    res.send 500, 'Error.'
+    console.log 'Error sending ' + req.params.func + '(' + req.body.args + '):', err
 
 app.use express.static 'static'
 

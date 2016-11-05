@@ -7,6 +7,9 @@
     Tell your device what to do!<br>
     <button class="btn" value="on">On</button>
     <button class="btn" value="off">Off</button>
+    <br>
+    <input type="number" id="num" />
+    <button class="btn2" value="num">Send</button>
   </div>
   <script
     src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -14,8 +17,17 @@
     crossorigin="anonymous"></script>
   <script>
     $('.btn').click(function(){
-      $.post('/toast', {args: $(this).val()}, function(data){
-        alert(data);
+      $.post('/toast/led', {args: $(this).val()})
+      .done(function(res){console.log(res);})
+      .fail(function(xhr, ajaxOptions, thrownError){
+        alert("Error " + xhr.status + ":\n" + thrownError);
+      });
+    });
+    $('.btn2').click(function(){
+      $.post('/toast/servo', {args: $('#'+$(this).val()).val()})
+      .done(function(res){console.log(res);})
+      .fail(function(xhr, ajaxOptions, thrownError){
+        alert("Error " + xhr.status + ":\n" + thrownError);
       });
     });
   </script>
