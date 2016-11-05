@@ -8,9 +8,9 @@ PORT = process.env.PORT || 1337
 app.use helmet()
 
 app.get '/', (req, res) ->
-	res.sendFile 'dist/index.html', { root: '.' }
+	res.sendFile 'static/index.html', { root: '.' }
 
-app.use express.static 'dist'
+app.use express.static 'static'
 
 app.listen PORT, 'localhost', ->
 	console.log "listening on * : " + PORT
