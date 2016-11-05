@@ -75,7 +75,7 @@ recognizeStream = speech.createRecognizeStream
   config:
     encoding: 'LINEAR16'
     sampleRate: 48000
-recognizeStream.on 'data', (data) -> console.log data
+recognizeStream.on 'data', console.log
 recognizeStream.on 'error', console.error
 
 https = require 'https'
@@ -91,12 +91,12 @@ binaryServer = BinaryServer {server: wssServer}
 binaryServer.on 'connection', (client) ->
   console.log 'new connection'
   
-  outFile = randomstring.generate(10) + '.wav'
+  outFile = randomstring.generate(10) + '.raw'
   
-  fileWriter = new wav.FileWriter outFile,
-    channels: 1,
-    sampleRate: 48000,
-    bitDepth: 16
+  #fileWriter = new wav.FileWriter outFile,
+  #  channels: 1,
+  #  sampleRate: 48000,
+  #  bitDepth: 16
   
   client.on 'stream', (stream, meta) ->
     console.log 'new stream'
