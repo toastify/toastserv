@@ -5,11 +5,15 @@ helmet = require 'helmet'
 bodyParser = require 'body-parser'
 Particle = require 'particle-api-js'
 exec = require('child_process').exec
+ghHandler = new require('koa-github-webhook-handler').GithubWebhookHandler
+  path: '/update',
+  secret: process.env.GH_SECRET
 
 PORT = process.env.PORT || 1337
 
 app = express()
 app.use helmet()
+app.use ghHandler.middleware()
 app.use bodyParser.urlencoded {extended: false}
 
 particle = new Particle()
@@ -33,7 +37,7 @@ app.post '/toast/:func', (req, res) ->
     res.send 500, 'Error.'
     console.log 'Error sending ' + req.params.func + '(' + req.body.args + '):', err.body.error
 
-app.post '/update', (req, res) ->
+ghHandler.on 'push', (event) ->
   exec 'git pull && npm install && npm prune', (error, stdout, stderr) ->
     if error then console.log error
     console.log stdout, stderr
