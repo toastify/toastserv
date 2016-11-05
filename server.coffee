@@ -91,18 +91,19 @@ binaryServer = BinaryServer {server: wssServer}
 binaryServer.on 'connection', (client) ->
   console.log 'new connection'
   
-  outFile = randomstring.generate(10) + '.raw'
+  outFile = randomstring.generate(10) + '.wav'
   
-  #fileWriter = new wav.FileWriter outFile,
-  #  channels: 1,
-  #  sampleRate: 48000,
-  #  bitDepth: 16
+  fileWriter = new wav.FileWriter outFile,
+    channels: 1,
+    sampleRate: 48000,
+    bitDepth: 16
   
   client.on 'stream', (stream, meta) ->
     console.log 'new stream'
-    stream.pipe recognizeStream
+    stream.pipe fileWriter
     stream.on 'end', ->
       console.log 'wrote to file ' + outFile
+      fs.createReadStream(outFile).pipe(recognizeStream)
 
 binaryServer.on 'error', (error) ->
   console.log error
