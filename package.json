@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/toastify/toastserv#readme",
   "dependencies": {
+    "@google-cloud/speech": "^0.4.0",
     "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",

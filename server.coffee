@@ -7,6 +7,9 @@ Particle = require 'particle-api-js'
 exec = require('child_process').exec
 ghHandler = require('github-webhook-middleware')
   secret: process.env.GH_SECRET
+speech = require('@google-cloud/speech')
+  projectId: "53fec4ffc555ac8e653fb867645611e47184d843"
+  credentials: require "./keyfile.json"
 
 PORT = process.env.PORT || 1337
 
