@@ -4,7 +4,7 @@
   var client = new BinaryClient('wss://ec2.clive.io:9001');
 
   client.on('open', function() {
-    window.Stream = client.createStream();
+    window.Stream;
 
     if (!navigator.getUserMedia)
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
@@ -20,6 +20,7 @@
 
     window.startRecording = function() {
       recording = true;
+      window.Stream = client.createStream();
     }
 
     window.stopRecording = function() {
