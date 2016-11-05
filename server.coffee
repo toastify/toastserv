@@ -89,8 +89,8 @@ app.listen PORT, 'localhost', ->
 https = require 'https'
 fs = require 'fs'
 wssServer = https.createServer
-  key: fs.readFileSync './certs/toast.clive.io.key'
-  cert: fs.readFileSync './certs/2_toast.clive.io.crt'
+  key: fs.readFileSync './certs/ec2.clive.io.key'
+  cert: fs.readFileSync './certs/2_ec2.clive.io.crt'
   passphrase: process.env.SSL_PASS
 .listen 9001
 
