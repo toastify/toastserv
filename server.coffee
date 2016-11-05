@@ -95,7 +95,6 @@ wssServer = https.createServer
 .listen 9001
 
 binaryServer = BinaryServer {server: wssServer}
-console.log JSON.stringify binaryServer
 
 binaryServer.on 'connection', (client) ->
   console.log 'new connection'
