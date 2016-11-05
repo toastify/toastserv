@@ -4,6 +4,7 @@ http = require('http').Server(app)
 helmet = require 'helmet'
 bodyParser = require 'body-parser'
 Particle = require 'particle-api-js'
+exec = require('child_process').exec
 
 PORT = process.env.PORT || 1337
 
@@ -30,7 +31,13 @@ app.post '/toast/:func', (req, res) ->
     console.log 'Sent ' + req.params.func + '(' + req.body.args + ')'
   .catch (err) ->
     res.send 500, 'Error.'
-    console.log 'Error sending ' + req.params.func + '(' + req.body.args + '):', err
+    console.log 'Error sending ' + req.params.func + '(' + req.body.args + '):', err.body.error
+
+app.post '/update', (req, res) ->
+  exec 'git pull && npm install && npm prune', (error, stdout, stderr) ->
+    if error then console.log error
+    console.log stdout, stderr
+  process.exit 0 # PM2 will restart it.
 
 app.use express.static 'static'
 
