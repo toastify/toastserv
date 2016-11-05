@@ -15,7 +15,7 @@
       padding: 0.3em;
     }
     #name{
-      width: 5em;
+      width: 7em;
     }
     #argument{
       width: 20em;
@@ -39,11 +39,13 @@
     var isRecording = false;
     $('#record').click(function(){
       if(!isRecording){
-        $(this).text('Stop Recording');
         startRecording();
+        isRecording = true;
+        $(this).text('Stop Recording');
       }else{
-        $(this).text('Start Recording');
         stopRecording();
+        isRecording = false;
+        $(this).text('Start Recording');
       }
     });
     
