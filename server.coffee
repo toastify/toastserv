@@ -60,6 +60,8 @@ app.post '/update', ghHandler, (req, res) ->
       res.sendStatus 200
       process.exit 0 # PM2 will restart it.
 
+app.use '/static', express.static 'static'
+
 app.all '*', (req, res) ->
   res.sendStatus 404
 
