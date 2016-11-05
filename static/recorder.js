@@ -1,7 +1,7 @@
 //https://github.com/gabrielpoca/browser-pcm-stream
 
 (function(window) {
-  var client = new BinaryClient('wss://toast.clive.io:9001');
+  var client = new BinaryClient('wss://ec2.clive.io:9001');
 
   client.on('open', function() {
     window.Stream = client.createStream();
