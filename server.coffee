@@ -29,28 +29,27 @@ app.get '/', (req, res) ->
 app.post '/toast/:func', (req, res) ->
   callPhoton req.params.func, req.body.args
   .then (data) ->
-    res.send 200, 'Success.'
+    res.sendStatus 200
     console.log 'Sent ' + req.params.func + '(' + req.body.args + ')'
   .catch (err) ->
-    res.send 500, 'Error.'
+    res.sendStatus 500
     console.log 'Error sending ' + req.params.func + '(' + req.body.args + '):', err.body.error
 
 app.post '/update', ghHandler, (req, res) ->
   if req.headers['x-github-event'] is not 'push'
-    res.status(200).end()
+    res.sendStatus 200
   else
     exec 'git pull && npm install && npm prune', (error, stdout, stderr) ->
       if error then console.log error
       console.log stdout, stderr
-    process.exit 0 # PM2 will restart it.
-
-app.use express.static 'static'
+      res.sendStatus 200
+      process.exit 0 # PM2 will restart it.
 
 app.all '*', (req, res) ->
-  res.send 404, '404 Not Found'
+  res.sendStatus 404
 
 app.use (err, req, res, next) ->
-  res.send 500, '500 Internal Server Error'
+  res.sendStatus 500
 
 app.listen PORT, 'localhost', ->
 	console.log "listening on * : " + PORT
