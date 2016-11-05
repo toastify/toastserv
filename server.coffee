@@ -6,16 +6,15 @@ bodyParser = require 'body-parser'
 bluebird = require 'bluebird'
 Particle = require 'particle-api-js'
 exec = require('child_process').exec
-ghHandler = require('github-webhook-middleware')({secret: process.env.GH_SECRET})
+ghHandler = require('github-webhook-middleware')
+  secret: process.env.GH_SECRET
 
-speech = require('@google-cloud/speech') {
+speech = require('@google-cloud/speech')
   projectId: "53fec4ffc555ac8e653fb867645611e47184d843"
   credentials: require "./keyfile.json"
-}
 bluebird.promisifyAll speech
-witClient = new require('node-wit').Wit {
+witClient = new require('node-wit').Wit
   accessToken: process.env.WIT_TOKEN
-}
 
 BinaryServer = require('binaryjs').BinaryServer
 wav = require 'wav'
@@ -88,7 +87,8 @@ app.listen PORT, 'localhost', ->
   .catch console.error
 ###
 
-binaryServer = BinaryServer {port: 9001}
+binaryServer = BinaryServer {port: 9001}, ->
+  console.log "BinaryServer connected"
 
 binaryServer.on 'connection', (client) ->
   console.log 'new connection'
@@ -106,3 +106,6 @@ binaryServer.on 'connection', (client) ->
     stream.on 'end', ->
       fileWriter.end()
       console.log 'wrote to file ' + outFile
+
+binaryServer.on 'error', (error) ->
+  console.log error
