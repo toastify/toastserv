@@ -1,1 +1,23 @@
-hello
+<!DOCTYPE>
+<html>
+<head>
+</head>
+<body>
+  <div style="text-align: center; margin-top: 4em;">
+    Tell your device what to do!<br>
+    <button class="btn" value="on">On</button>
+    <button class="btn" value="off">Off</button>
+  </div>
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  <script>
+    $('.btn').click(function(){
+      $.post('/toast', {args: $(this).val()}, function(data){
+        alert(data);
+      });
+    });
+  </script>
+</body>
+</html>

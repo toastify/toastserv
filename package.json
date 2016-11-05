@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/toastify/toastserv#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "helmet": "^3.1.0"
+    "helmet": "^3.1.0",
+    "particle-api-js": "^6.3.0"
   }
 }
