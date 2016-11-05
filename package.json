@@ -21,8 +21,8 @@
     "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "github-webhook-middleware": "0.0.2",
     "helmet": "^3.1.0",
-    "koa-github-webhook-handler": "^0.1.0",
     "particle-api-js": "^6.3.0"
   }
 }
