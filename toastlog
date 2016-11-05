@@ -1,0 +1,7 @@
+router reg toastlog.clive.io 28778
+
+log.io-server &
+log.io-harvester &
+
+# I want to use PM2 but not rn. Just manually pstree -ap and sudo kill.
+
