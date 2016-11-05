@@ -19,11 +19,16 @@
   "homepage": "https://github.com/toastify/toastserv#readme",
   "dependencies": {
     "@google-cloud/speech": "^0.4.0",
+    "binaryjs": "^0.2.1",
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "github-webhook-middleware": "0.0.2",
     "helmet": "^3.1.0",
-    "particle-api-js": "^6.3.0"
+    "node-wit": "^4.1.0",
+    "particle-api-js": "^6.3.0",
+    "randomstring": "^1.1.5",
+    "wav": "^1.0.1"
   }
 }
