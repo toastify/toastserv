@@ -37,7 +37,6 @@ app.post '/toast/:func', (req, res) ->
 
 app.post '/update', ghHandler, (req, res) ->
   if req.headers['x-github-event'] is not 'push'
-  then
     res.status(200).end()
   else
     exec 'git pull && npm install && npm prune', (error, stdout, stderr) ->
