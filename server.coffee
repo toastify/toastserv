@@ -69,22 +69,14 @@ app.use (err, req, res, next) ->
 app.listen PORT, 'localhost', ->
 	console.log "listening on * : " + PORT
 
-###
-  options = 
-    config:
-      encoding: 'LINEAR16',
-      sampleRate: 48000
-  speech.createRecognizeStream options
-  .on 'data', (data) => process.stdout.write data.results
-  .on 'error', console.error
 
-  ???
-  .then (finishedTranscript) ->
-    return witClient.message finishedTranscript, {}
-  .then (data) ->
-    console.log JSON.stringify data
-  .catch console.error
-###
+
+recognizeStream = speech.createRecognizeStream
+  config:
+    encoding: 'LINEAR16'
+    sampleRate: 48000
+recognizeStream.on 'data', (data) -> console.log data
+recognizeStream.on 'error', console.error
 
 https = require 'https'
 fs = require 'fs'
@@ -108,10 +100,18 @@ binaryServer.on 'connection', (client) ->
   
   client.on 'stream', (stream, meta) ->
     console.log 'new stream'
-    stream.pipe fileWriter
+    stream.pipe recognizeStream
     stream.on 'end', ->
-      fileWriter.end()
       console.log 'wrote to file ' + outFile
 
 binaryServer.on 'error', (error) ->
   console.log error
+
+###
+  ???
+  .then (finishedTranscript) ->
+    return witClient.message finishedTranscript, {}
+  .then (data) ->
+    console.log JSON.stringify data
+  .catch console.error
+###
