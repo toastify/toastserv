@@ -1,0 +1,4 @@
+git pull
+npm install
+npm prune
+pm2 restart router:toast.clive.io
