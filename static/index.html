@@ -1,16 +1,16 @@
 <style>
-#wrapper{
+button, #feedback{
   display: block;
   margin: 3em auto;
   font-size: 2em;
   padding: 0.3em;
-  text-align: left;
+}
+#feedback{
+  width: 80%;
 }
 </style>
-<div id="wrapper">
-  <button id="record">Start</button>
-  <p id="feedback"></p>
-</div>
+<p><button id="record">Start</button></p>
+<p id="feedback"></p>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
@@ -18,7 +18,7 @@
 <script src="static/recorder.js"></script>
 <script>
 var isRecording = false;
-$(window).keyPress(function(e){
+$(window).keypress(function(e){
   if(e.which == 32){
     if(!isRecording){
       isRecording = true;
