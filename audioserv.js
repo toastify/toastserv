@@ -7,7 +7,7 @@ const edibles = [
   [],
   [],
   ["pepperoni", "pepperonis"],
-  ["veggies", "veggie blend", "vegetables", "lettuce"]
+  ["veggies", "veggie blend", "vegetables", "lettuce", "greens"]
 ];
 
 let bluebird = require('bluebird');
