@@ -2,6 +2,10 @@
 
 (function(window) {
   var client = new BinaryClient('wss://ec2.clive.io:9001');
+  
+  client.on('stream', function(stream){
+    stream.on('data', console.log);
+  });
 
   client.on('open', function() {
     window.Stream;
