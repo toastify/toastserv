@@ -21,7 +21,7 @@ let binaryServer = new BinaryServer({server: wssServer})
 .on('connection', function(client){
   console.log('new connection');
   
-  let outFile = randomstring.generate(10) + '.wav';
+  let outFile = './' + randomstring.generate(10) + '.wav';
   
   client.on('stream', function(stream){
     console.log('new stream and recognizeStream');
@@ -29,14 +29,13 @@ let binaryServer = new BinaryServer({server: wssServer})
       .on('data', () => console.log('- stream datum'))
       .on('end', () =>{
         console.log('end stream');
-        speech.recognize({
-          file: outFile,
-          config: {encoding:'LINEAR16', sampleRate: 16000},
-          verbose: true
-        }).then(function([results, apiResponse]){
-          console.log("RETURNED!", err, results, apiResponse);
-          client.createStream().write(results);
-        }).catch(console.error);
+        speech.recognize(outFile,
+          {encoding:'LINEAR16', sampleRate: 16000, verbose: true},
+          function(err, results, apiResponse){
+            if(err) return console.error("RETURNED! ERROR:", err);
+            console.log("RETURNED!", err, results, apiResponse);
+            client.createStream().write(results);
+          });
       })
       .on('*', () => console.log('ANY event stream'))
     .pipe(fs.createWriteStream(outFile));
