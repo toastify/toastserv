@@ -46,6 +46,8 @@ let binaryServer = new BinaryServer({server: wssServer})
       .on('*', () => console.log('ANY event stream'))
     .pipe(fs.createWriteStream(outFile));*/
     
+    let transcribed = "";
+    
     stream
       .on('end', () => console.log('end stream'))
     .pipe(speech.createRecognizeStream({
@@ -59,12 +61,13 @@ let binaryServer = new BinaryServer({server: wssServer})
       interimResults: true //no longer in v1beta1
     }))
       .on('error', console.error)
-      .on('data', (transcribed) => {
-        console.log(transcribed);
-        if(!transcribed.results.is_final) return;
-        console.log('END recognizeStream');
-        console.log(transcribed);
-        witClient.message(transcribed, {})
+      .on('data', (data) => {
+        console.log(data);
+        transcribed = data;
+      })
+      .on('end', () => {
+        console.log('END recognizeStream, BEGIN witAI');
+        witClient.message(transcribed.results, {})
         .then(function(data){
           if(data.entities.intent && intent.includes(data.entities.intent[0].value)){
             let toSend = [];
