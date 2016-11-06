@@ -52,7 +52,7 @@ let binaryServer = new BinaryServer({server: wssServer})
       config: {
         encoding: 'LINEAR16',
         sampleRate: 48000, //might be 44100?
-        speechContext: ['sausage', 'pepperoni', 'pepper', 'veggies'],
+        speechContext: {phrases: ['sausage', 'pepperoni', 'pepper', 'veggies']},
         profanityFilter: true
       },
       singleUtterance: false,
