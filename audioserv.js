@@ -16,8 +16,8 @@ let binaryServer = new BinaryServer({server: wssServer})
 .on('connection', function(client){
   console.log('new connection');
   
-  let transcribed = "";
   client.on('stream', function(stream){
+    let transcribed = "";
     console.log('new stream');
     stream.pipe(speech_to_text.createRecognizeStream({
       content_type: 'audio/l16; rate=44100'
