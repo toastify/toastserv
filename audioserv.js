@@ -22,12 +22,18 @@ let binaryServer = new BinaryServer({server: wssServer})
   
   client.on('stream', function(stream){
     let transcribed = "";
-    console.log('new stream');
+    console.log('new stream and recognizeStream');
+    stream.on('data', function(){
+      console.log('- stream datum');
+    }).on('end', function(){
+      console.log('end stream');
+    });
     
     const speech = require('@google-cloud/speech')({keyFilename: 'keyfile.json'});
     const recognizeStream = speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 16000}})
       .on('error', console.error)
-      .on('data', (data) => console.log(data.results));
+      .on('data', (data) => console.log('* recognizeStream datum'))
+      .on('end', () => console.log('END recognizeStream', recognizeStream));
     stream.pipe(recognizeStream);
     recognizeStream.pipe(client.createStream());
     

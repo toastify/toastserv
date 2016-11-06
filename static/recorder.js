@@ -8,6 +8,9 @@
     stream.on('data', function(data){
       console.log(data);
     });
+    stream.on('end', function(){
+      console.log('ws incoming stream end');
+    });
   });
 
   client.on('open', function() {
