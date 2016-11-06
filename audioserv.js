@@ -2,10 +2,10 @@
 
 const intent = ["sandwich"];
 const edibles = [
-  ["peppers"],
-  ["pepperoni"],
-  ["sausage"],
-  ["veggie blend"]
+  ["peppers", "pepper"],
+  ["pepperoni", "pepperonis"],
+  ["sausage", "pork sausage", "sausages"],
+  ["veggie blend", "veggies", "vegetables"]
 ];
 
 let bluebird = require('bluebird');
@@ -22,7 +22,7 @@ let wssServer = https.createServer({
 let BinaryServer = require('binaryjs').BinaryServer;
 let wav = require('wav');
 let randomstring = require('randomstring');
-const speech = require('@google-cloud/speech')({keyFilename: 'keyfile.json'});
+const speech = require('@google-cloud/speech').v1({keyFilename: 'keyfile.json'});
 let binaryServer = new BinaryServer({server: wssServer})
 .on('connection', function(client){
   console.log('new connection');
