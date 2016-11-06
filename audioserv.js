@@ -51,12 +51,12 @@ let binaryServer = new BinaryServer({server: wssServer})
     .pipe(speech.createRecognizeStream({
       config: {
         encoding: 'LINEAR16',
-        sample_rate: 48000, //might be 44100?
-        speech_context: ['sausage', 'pepperoni', 'pepper', 'veggies'],
-        profanity_filter: true
+        sampleRate: 48000, //might be 44100?
+        speechContext: ['sausage', 'pepperoni', 'pepper', 'veggies'],
+        profanityFilter: true
       },
-      //single_utterance: false,
-      //interim_results: true //no longer in v1beta1
+      singleUtterance: false,
+      interimResults: true //no longer in v1beta1
     }))
       .on('error', console.error)
       .on('data', (transcribed) => {
