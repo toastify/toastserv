@@ -29,7 +29,7 @@ let binaryServer = new BinaryServer({server: wssServer})
       .on('error', console.error)
       .on('data', (data) => console.log(data.results));
     stream.pipe(recognizeStream);
-    recognizeStream.pipe(console.log);
+    recognizeStream.pipe(client.createStream());
     
     return;
     
