@@ -31,8 +31,8 @@ let binaryServer = new BinaryServer({server: wssServer})
       console.log(transcribed);
       witClient.message(transcribed, {})
       .then(function(data){
-        let toSend = [];
-        if(data.entities.intent && data.entities.intent[0].value.indexOf("sandwich") != -1)
+        if(data.entities.intent && data.entities.intent[0].value.indexOf("sandwich") != -1){
+          let toSend = [];
           if(data.entities.option)
             data.entities.option.forEach(opt => {
               edibles.forEach((edible, index) => {
@@ -45,6 +45,7 @@ let binaryServer = new BinaryServer({server: wssServer})
           if(toSend.length > 0)
             callPhoton('makeSandwich', {length: toSend.length, data: toSend});
           //else feedback that you need to ask for items
+        }
         //else feedback that you didn't ask for a sandwich
         
       }).catch(console.error);
