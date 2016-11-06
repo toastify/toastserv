@@ -16,28 +16,25 @@ let wssServer = https.createServer({
 let BinaryServer = require('binaryjs').BinaryServer;
 let wav = require('wav');
 let randomstring = require('randomstring');
+const speech = require('@google-cloud/speech')({keyFilename: 'keyfile.json'});
 let binaryServer = new BinaryServer({server: wssServer})
 .on('connection', function(client){
   console.log('new connection');
   
   client.on('stream', function(stream){
-    let transcribed = "";
     console.log('new stream and recognizeStream');
-    stream.on('data', function(){
-      console.log('- stream datum');
-    }).on('end', function(){
-      console.log('end stream');
-    });
-    
-    const speech = require('@google-cloud/speech')({keyFilename: 'keyfile.json'});
-    const recognizeStream = speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 16000}})
+    stream
+      .on('data', () => console.log('- stream datum'))
+      .on('end', () => console.log('end stream'))
+    .pipe(speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 16000}}))
       .on('error', console.error)
       .on('data', (data) => console.log('* recognizeStream datum'))
-      .on('end', () => console.log('END recognizeStream', recognizeStream));
-    stream.pipe(recognizeStream);
-    recognizeStream.pipe(client.createStream());
+      .on('end', () => console.log('END recognizeStream'))
+    .pipe(client.createStream());
     
     return;
+    
+    let transcribed = "";
     
     stream.pipe(speech_to_text.createRecognizeStream({
       content_type: 'audio/l16; rate=44100'
