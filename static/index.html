@@ -1,23 +1,29 @@
-<button id="record">Start Recording</button>
+<style>
+div{
+  display: block;
+  margin: 3em auto;
+  font-size: 2em;
+  padding: 0.3em;
+  text-align: left;
+}
+</style>
+<div>
+  <button id="record">Start</button>
+  <p></p>
+</div>
 <script src="https://cdn.jsdelivr.net/binaryjs/0.2.1/binary.min.js"></script>
 <script src="static/recorder.js"></script>
 <script>
-
-var isRecording = false;
-$('#record').click(function(){
-  if(!isRecording){
+$(window).keydown(function(e){
+  if(e.which == 32){
     startRecording();
-    isRecording = true;
-    $(this).text('Stop Recording');
-  }else{
-    stopRecording();
-    isRecording = false;
-    $(this).text('Start Recording');
+    $(this).text('Stop');
   }
 });
-
-$(window).keypress(function(e){
-  if(e.which == 32)
-    $('#record').focus().click();
+$(window).keyup(function(e){
+  if(e.which == 32){
+    stopRecording();
+    $(this).text('Start');
+  }
 });
 </script>
