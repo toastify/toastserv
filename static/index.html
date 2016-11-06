@@ -57,6 +57,11 @@
         callPhoton($('#name').val(), $('#argument').val());
     });
     
+    $('window').keypress(function(e){
+      if(e.which == 32)
+        $('#record').focus().click();
+    });
+    
     function callPhoton(name, argument){
       $.post('/toast/'+name, {args: argument})
       .done(function(res){console.log(res);})
