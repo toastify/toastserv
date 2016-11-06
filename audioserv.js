@@ -69,6 +69,7 @@ let binaryServer = new BinaryServer({server: wssServer})
         console.log('END recognizeStream, BEGIN witAI');
         witClient.message(transcribed.results, {})
         .then(function(data){
+          console.log(JSON.stringify(data, null, 2));
           if(data.entities.intent && intent.includes(data.entities.intent[0].value)){
             let toSend = [];
             if(data.entities.option)
