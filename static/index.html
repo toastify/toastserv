@@ -1,9 +1,9 @@
 <style>
 button, #feedback{
   display: block;
-  margin: 3em auto;
-  font-size: 2em;
-  padding: 0.3em;
+  margin: 1em auto;
+  font-size: 3em;
+  padding: 0.2em;
 }
 #feedback{
   width: 80%;
@@ -16,6 +16,7 @@ button, #feedback{
   crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/binaryjs/0.2.1/binary.min.js"></script>
 <script src="static/recorder.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 <script>
 var isRecording = false;
 $(window).keypress(function(e){
@@ -31,4 +32,15 @@ $(window).keypress(function(e){
     }
   }
 });
+
+if(annyang){
+  annyang.addCommands({
+    'ok toaster': function(){
+      isRecording = true;
+      startRecording();
+      $('#record').text('Stop');
+    }
+  });
+  annyang.start();
+}
 </script>
