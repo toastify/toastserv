@@ -23,11 +23,11 @@ $(window).keypress(function(e){
     if(!isRecording){
       isRecording = true;
       startRecording();
-      $(this).text('Stop');
+      $('#record').text('Stop');
     }else{
       isRecording = false;
       stopRecording();
-      $(this).text('Start');
+      $('#record').text('Start');
     }
   }
 });
