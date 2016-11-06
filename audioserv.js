@@ -46,7 +46,7 @@ let binaryServer = new BinaryServer({server: wssServer})
       .on('*', () => console.log('ANY event stream'))
     .pipe(speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 16000}}))
       .on('error', console.error)
-      .on('data', (data) => console.log('* recognizeStream datum'))
+      .on('data', (data) => console.log('* recognizeStream datum', data))
       .on('end', () => console.log('END recognizeStream'))
       .on('*', () => console.log('ANY event recognizeStream'))
     .pipe(client.createStream());
