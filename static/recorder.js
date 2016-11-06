@@ -5,7 +5,9 @@
   
   client.on('stream', function(stream){
     console.log('ws incoming stream');
-    stream.on('data', console.log);
+    stream.on('data', function(data){
+      console.log(String.fromCharCode.apply(null, new Uint8Array(data)));
+    });
   });
 
   client.on('open', function() {
