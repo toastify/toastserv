@@ -16,20 +16,13 @@ let binaryServer = new BinaryServer({server: wssServer})
 .on('connection', function(client){
   console.log('new connection');
   
-  let outFile = randomstring.generate(10) + '.wav';
-  
-  let fileWriter = new wav.FileWriter(outFile, {
-    channels: 1,
-    sampleRate: 48000,
-    bitDepth: 16
-  });
-  
-  client.on('stream', function(stream, meta){
+  client.on('stream', function(stream){
     console.log('new stream');
-    stream.pipe(recognizeStream);
-    console.log('a');
-    recognizeStream.pipe(client);
-    console.log('b');
+    stream.pipe(stream);
+    stream.on('data', console.log);
+    
+    //stream.pipe(recognizeStream);
+    //recognizeStream.pipe(stream); // Ohhhhh streams are bidirectional
   });
 })
 .on('error', function(error){
