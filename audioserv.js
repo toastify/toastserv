@@ -5,7 +5,7 @@ const edibles = [
   ["peppers", "pepper"],
   ["pepperoni", "pepperonis"],
   ["sausage", "pork sausage", "sausages"],
-  ["veggie blend", "veggies", "vegetables"]
+  ["veggies", "veggie blend", "vegetables"]
 ];
 
 let bluebird = require('bluebird');
@@ -49,9 +49,14 @@ let binaryServer = new BinaryServer({server: wssServer})
     stream
       .on('end', () => console.log('end stream'))
     .pipe(speech.createRecognizeStream({
-      config: {encoding: 'LINEAR16', sampleRate: 48000, interim_results: true}, //might be 44100?
+      config: {
+        encoding: 'LINEAR16',
+        sample_rate: 48000, //might be 44100?
+        speech_context: ['sausage', 'pepperoni', 'pepper', 'veggies'],
+        profanity_filter: true
+      },
       //single_utterance: false,
-      //interim_results: true
+      //interim_results: true //no longer in v1beta1
     }))
       .on('error', console.error)
       .on('data', (transcribed) => {
