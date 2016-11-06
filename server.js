@@ -19,4 +19,4 @@ app.use('/static', express.static('static'));
 app.all('*', (req, res) => res.sendStatus(404))
 app.use((err, req, res, next) => res.sendStatus(500))
 
-app.listen(PORT, 'localhost', => console.log("listening on * : " + PORT));
+app.listen(PORT, 'localhost', () => console.log("listening on * : " + PORT));
