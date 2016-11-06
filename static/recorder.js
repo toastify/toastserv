@@ -4,10 +4,12 @@
   window.client = new BinaryClient('wss://ec2.clive.io:9001');
   
   client.on('stream', function(stream){
+    console.log('ws incoming stream');
     stream.on('data', console.log);
   });
 
   client.on('open', function() {
+    console.log('ws connection established');
     window.Stream;
 
     if (!navigator.getUserMedia)
