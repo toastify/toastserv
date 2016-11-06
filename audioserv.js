@@ -40,18 +40,15 @@ let binaryServer = new BinaryServer({server: wssServer})
       .on('*', () => console.log('ANY event stream'))
     .pipe(fs.createWriteStream(outFile));*/
     
-    let transcribed = "";
-    
     stream
       .on('end', () => console.log('end stream'))
-    .pipe(speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 48000}, interim_results: true}))
-          //might be 44100?
+    .pipe(speech.createRecognizeStream({
+      config: {encoding: 'LINEAR16', sampleRate: 48000}, //might be 44100?
+//      interim_results: true
+    }))
       .on('error', console.error)
-      .on('data', (data) => {
-        console.log('* recognizeStream datum', data);
-        transcribed = data.result;
-      })
-      .on('end', function(){
+      .on('data', (transcribed) => {
+        if(!transcribed.results.is_final) return;
         console.log('END recognizeStream');
         console.log(transcribed);
         witClient.message(transcribed, {})
