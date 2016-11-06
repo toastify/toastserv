@@ -18,9 +18,10 @@ let binaryServer = new BinaryServer({server: wssServer})
   
   client.on('stream', function(stream){
     console.log('new stream');
-    stream.pipe(client.createStream());
+    stream.pipe(recognizeStream);
+    recognizeStream.pipe(client.createStream());
     
-    //stream.pipe(recognizeStream);
+    //
     //recognizeStream.pipe(stream); // Ohhhhh streams are bidirectional
   });
 })
