@@ -32,7 +32,7 @@ let binaryServer = new BinaryServer({server: wssServer})
       witClient.message(transcribed, {})
       .then(function(data){
         let toSend = [];
-        if(data.entities.intent[0].value.indexOf("sandwich") != -1)
+        if(data.entities.intent && data.entities.intent[0].value.indexOf("sandwich") != -1)
           if(data.entities.option)
             data.entities.option.forEach(opt => {
               edibles.forEach((edible, index) => {
