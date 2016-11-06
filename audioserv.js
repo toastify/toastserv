@@ -16,11 +16,20 @@ let binaryServer = new BinaryServer({server: wssServer})
 .on('connection', function(client){
   console.log('new connection');
   
+  let transcribed = "";
   client.on('stream', function(stream){
     console.log('new stream');
     stream.pipe(speech_to_text.createRecognizeStream({
       content_type: 'audio/l16; rate=44100'
-    })).pipe(client.createStream());
+    })).on('data', function(data){
+      transcribed += String.fromCharCode.apply(null, new Uint8Array(data));
+    }).on('end', function(){
+      console.log(transcribed);
+      witClient.message(transcribed, {})
+      .then(function(data){
+        console.log(JSON.stringify(data));
+      }).catch(console.error);
+    });
     
     // Ohhhhh streams are bidirectional
   });
@@ -47,12 +56,3 @@ let recognizeStream = speech.createRecognizeStream({
 let witClient = new require('node-wit').Wit({
   accessToken: process.env.WIT_TOKEN
 });
-
-/*
-  ???
-  .then (finishedTranscript) ->
-    return witClient.message finishedTranscript, {}
-  .then (data) ->
-    console.log JSON.stringify data
-  .catch console.error
-*/
