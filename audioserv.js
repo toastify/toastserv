@@ -24,7 +24,7 @@ let binaryServer = new BinaryServer({server: wssServer})
     let transcribed = "";
     console.log('new stream');
     
-    const speech = require('@google-cloud/speech')();
+    const speech = require('@google-cloud/speech')(require('./keyfile.json'));
     const recognizeStream = speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 16000}})
       .on('error', console.error)
       .on('data', (data) => console.log(data.results));
