@@ -1,5 +1,5 @@
 <style>
-div{
+#wrapper{
   display: block;
   margin: 3em auto;
   font-size: 2em;
@@ -7,7 +7,7 @@ div{
   text-align: left;
 }
 </style>
-<div>
+<div id="wrapper">
   <button id="record">Start</button>
   <p id="feedback"></p>
 </div>
@@ -17,16 +17,18 @@ div{
 <script src="https://cdn.jsdelivr.net/binaryjs/0.2.1/binary.min.js"></script>
 <script src="static/recorder.js"></script>
 <script>
-$(window).keydown(function(e){
+var isRecording = false;
+$(window).keyPress(function(e){
   if(e.which == 32){
-    startRecording();
-    $(this).text('Stop');
-  }
-});
-$(window).keyup(function(e){
-  if(e.which == 32){
-    stopRecording();
-    $(this).text('Start');
+    if(!isRecording){
+      isRecording = true;
+      startRecording();
+      $(this).text('Stop');
+    }else{
+      isRecording = false;
+      stopRecording();
+      $(this).text('Start');
+    }
   }
 });
 </script>

@@ -6,7 +6,7 @@
   client.on('stream', function(stream){
     console.log('ws incoming stream');
     stream.on('data', function(data){
-      console.log(data);
+      $('#feedback').text(data.join(' '));
     });
     stream.on('end', function(){
       console.log('ws incoming stream end');
