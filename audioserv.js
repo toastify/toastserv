@@ -47,7 +47,8 @@ let binaryServer = new BinaryServer({server: wssServer})
             });
           
           if(toSend.length > 0)
-            callPhoton('makeSandwich', {length: toSend.length, data: toSend});
+            callPhoton('makeSandwich', {length: toSend.length, data: toSend})
+            .catch(console.error); // "error: sending to sandwichmaker"
           else
             console.error("error: you need to ask for at least one valid item");
         }
