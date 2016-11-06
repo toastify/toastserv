@@ -1,6 +1,12 @@
 'use strict';
 
-const edibles = ["tomato", "lettuce", "cheese", "mayonnaise", "soylent", "WD-40"];
+const intent = ["sandwich"];
+const edibles = [
+  ["peppers"],
+  ["pepperoni"],
+  ["sausage"],
+  ["veggie blend"]
+];
 
 let bluebird = require('bluebird');
 
@@ -48,19 +54,21 @@ let binaryServer = new BinaryServer({server: wssServer})
     }))
       .on('error', console.error)
       .on('data', (transcribed) => {
+        console.log(transcribed);
         if(!transcribed.results.is_final) return;
         console.log('END recognizeStream');
         console.log(transcribed);
         witClient.message(transcribed, {})
         .then(function(data){
-          if(data.entities.intent && data.entities.intent[0].value.indexOf("sandwich") != -1){
+          if(data.entities.intent && intent.includes(data.entities.intent[0].value)){
             let toSend = [];
             if(data.entities.option)
               data.entities.option.forEach(opt => {
                 let valid = false;
                 edibles.forEach((edible, index) => {
-                  if(!valid && edible.indexOf(opt.value) != -1 && edible.length < opt.value.length + 4){
-                    toSend.push(index);
+                  if(!valid && edible.includes(opt.value)){
+                    if(!toSend.includes(index))
+                      toSend.push(index);
                     valid = true;
                   }
                 });
