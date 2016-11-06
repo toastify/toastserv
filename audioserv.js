@@ -36,17 +36,18 @@ let binaryServer = new BinaryServer({server: wssServer})
           if(data.entities.option)
             data.entities.option.forEach(opt => {
               edibles.forEach((edible, index) => {
-                if(edible.indexOf(opt) != -1 && edible.length < opt.length + 4)
+                if(edible.indexOf(opt.value) != -1 && edible.length < opt.value.length + 4)
                   toSend.push(index);
-                //else feedback that opt wasn't a valid food
+                else console.log("notice: the option '" + opt.value + "' wasn't a valid food");
               });
             });
           
           if(toSend.length > 0)
             callPhoton('makeSandwich', {length: toSend.length, data: toSend});
-          //else feedback that you need to ask for items
+          else
+            console.error("error: you need to ask for at least one item");
         }
-        //else feedback that you didn't ask for a sandwich
+        else console.error("error: you didn't ask for a sandwich");
         
       }).catch(console.error);
     });
