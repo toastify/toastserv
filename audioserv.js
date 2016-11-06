@@ -43,7 +43,7 @@ let binaryServer = new BinaryServer({server: wssServer})
             });
           
           if(toSend.length > 0)
-            callPhoton('makeSandwich', toSend);
+            callPhoton('makeSandwich', {length: toSend.length, data: toSend});
           //else feedback that you need to ask for items
         //else feedback that you didn't ask for a sandwich
         
