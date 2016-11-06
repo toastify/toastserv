@@ -3,8 +3,8 @@
 const intent = ["sandwich"];
 const edibles = [
   ["peppers", "pepper"],
-  ["pepperoni", "pepperonis"],
   ["sausage", "pork sausage", "sausages"],
+  ["pepperoni", "pepperonis"],
   ["veggies", "veggie blend", "vegetables"]
 ];
 
