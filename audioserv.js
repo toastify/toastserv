@@ -25,7 +25,7 @@ let binaryServer = new BinaryServer({server: wssServer})
   
   client.on('stream', function(stream){
     console.log('new stream and recognizeStream');
-    stream
+    /*stream
       .on('data', () => console.log('- stream datum'))
       .on('end', () =>{
         console.log('end stream');
@@ -38,15 +38,19 @@ let binaryServer = new BinaryServer({server: wssServer})
           });
       })
       .on('*', () => console.log('ANY event stream'))
-    .pipe(fs.createWriteStream(outFile));
-    /*
+    .pipe(fs.createWriteStream(outFile));*/
+    
+    stream
+      .on('data', () => console.log('- stream datum'))
+      .on('end', () => console.log('end stream'))
+      .on('*', () => console.log('ANY event stream'))
     .pipe(speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 16000}}))
       .on('error', console.error)
       .on('data', (data) => console.log('* recognizeStream datum'))
       .on('end', () => console.log('END recognizeStream'))
       .on('*', () => console.log('ANY event recognizeStream'))
     .pipe(client.createStream());
-    */
+    
     return;
     
     let transcribed = "";
