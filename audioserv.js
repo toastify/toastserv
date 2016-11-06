@@ -22,7 +22,7 @@ let wssServer = https.createServer({
 let BinaryServer = require('binaryjs').BinaryServer;
 let wav = require('wav');
 let randomstring = require('randomstring');
-const speech = require('@google-cloud/speech').v1({keyFilename: 'keyfile.json'});
+const speech = require('@google-cloud/speech').v1beta1({keyFilename: 'keyfile.json'});
 let binaryServer = new BinaryServer({server: wssServer})
 .on('connection', function(client){
   console.log('new connection');
