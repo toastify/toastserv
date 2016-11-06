@@ -40,54 +40,48 @@ let binaryServer = new BinaryServer({server: wssServer})
       .on('*', () => console.log('ANY event stream'))
     .pipe(fs.createWriteStream(outFile));*/
     
-    stream
-      //.on('data', () => console.log('- stream datum'))
-      .on('end', () => console.log('end stream'))
-      .on('*', () => console.log('ANY event stream'))
-    .pipe(speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 48000}}))
-      .on('error', console.error)
-      .on('data', (data) => console.log('* recognizeStream datum', data))
-      .on('end', () => console.log('END recognizeStream'))
-      .on('*', () => console.log('ANY event recognizeStream'))
-    .pipe(client.createStream());
-    
-    return;
-    
     let transcribed = "";
     
-    stream.pipe(speech_to_text.createRecognizeStream({
-      content_type: 'audio/l16; rate=44100'
-    })).on('data', function(data){
-      transcribed += String.fromCharCode.apply(null, new Uint8Array(data));
-    }).on('end', function(){
-      console.log(transcribed);
-      witClient.message(transcribed, {})
-      .then(function(data){
-        if(data.entities.intent && data.entities.intent[0].value.indexOf("sandwich") != -1){
-          let toSend = [];
-          if(data.entities.option)
-            data.entities.option.forEach(opt => {
-              let valid = false;
-              edibles.forEach((edible, index) => {
-                if(!valid && edible.indexOf(opt.value) != -1 && edible.length < opt.value.length + 4){
-                  toSend.push(index);
-                  valid = true;
-                }
+    stream
+      .on('end', () => console.log('end stream'))
+    .pipe(speech.createRecognizeStream({config:{encoding:'LINEAR16', sampleRate: 48000, interim_results: true}}))
+          //might be 44100?
+      .on('error', console.error)
+      .on('data', (data) => {
+        console.log('* recognizeStream datum', data);
+        transcribed = data.result;
+      })
+      .on('end', function(){
+        console.log('END recognizeStream');
+        console.log(transcribed);
+        witClient.message(transcribed, {})
+        .then(function(data){
+          if(data.entities.intent && data.entities.intent[0].value.indexOf("sandwich") != -1){
+            let toSend = [];
+            if(data.entities.option)
+              data.entities.option.forEach(opt => {
+                let valid = false;
+                edibles.forEach((edible, index) => {
+                  if(!valid && edible.indexOf(opt.value) != -1 && edible.length < opt.value.length + 4){
+                    toSend.push(index);
+                    valid = true;
+                  }
+                });
+                if(!valid)
+                  console.log("notice: the option '" + opt.value + "' wasn't a valid food");
               });
-              if(!valid)
-                console.log("notice: the option '" + opt.value + "' wasn't a valid food");
-            });
+            
+            if(toSend.length > 0)
+              callPhoton('makeSandwich', JSON.stringify({length: toSend.length, data: toSend}))
+              .catch(console.error); // "error: sending to sandwichmaker"
+            else
+              console.error("error: you need to ask for at least one valid item");
+          }
+          else console.error("error: you didn't ask for a sandwich");
           
-          if(toSend.length > 0)
-            callPhoton('makeSandwich', JSON.stringify({length: toSend.length, data: toSend}))
-            .catch(console.error); // "error: sending to sandwichmaker"
-          else
-            console.error("error: you need to ask for at least one valid item");
-        }
-        else console.error("error: you didn't ask for a sandwich");
-        
-      }).catch(console.error);
-    });
+        }).catch(console.error);
+      })
+      .pipe(client.createStream());
     
     // Ohhhhh streams are bidirectional
   });
