@@ -70,20 +70,20 @@ let binaryServer = new BinaryServer({server: wssServer})
         witClient.message(transcribed.results, {})
         .then(function(data){
           console.log(JSON.stringify(data, null, 2));
-          if(data.entities.intent && intent.includes(data.entities.intent[0].value)){
+          if(data.entities.intent && intent.includes(data.entities.intent[0].value.toLowerCase().trim())){
             let toSend = [];
             if(data.entities.option)
               data.entities.option.forEach(opt => {
                 let valid = false;
                 edibles.forEach((edible, index) => {
-                  if(!valid && edible.includes(opt.value)){
+                  if(!valid && edible.includes(opt.value.toLowerCase().trim())){
                     if(!toSend.includes(index))
                       toSend.push(index);
                     valid = true;
                   }
                 });
                 if(!valid)
-                  console.log("notice: the option '" + opt.value + "' wasn't a valid food");
+                  console.log("notice: the option '" + opt.value.toLowerCase().trim() + "' wasn't a valid food");
               });
             
             if(toSend.length > 0)
