@@ -18,25 +18,30 @@ let binaryServer = new BinaryServer({server: wssServer})
   
   client.on('stream', function(stream){
     console.log('new stream');
-    stream.pipe(recognizeStream);
-    recognizeStream.pipe(client.createStream());
+    stream.pipe(speech_to_text.createRecognizeStream({
+      content_type: 'audio/l16; rate=44100'
+    })).pipe(client.createStream());
     
-    //
-    //recognizeStream.pipe(stream); // Ohhhhh streams are bidirectional
+    // Ohhhhh streams are bidirectional
   });
 })
 .on('error', function(error){
   console.log(error);
 });
 
+let SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
+var speech_to_text = new SpeechToTextV1({
+  username: process.env.BLUEMIX_USER,
+  password: process.env.BLUEMIX_PASSWORD
+});
 
-let speech = bluebird.promisifyAll(require('@google-cloud/speech')({
+/*let speech = bluebird.promisifyAll(require('@google-cloud/speech')({
   projectId: "53fec4ffc555ac8e653fb867645611e47184d843",
   credentials: require("./keyfile.json")
 }));
 let recognizeStream = speech.createRecognizeStream({
   config: { encoding: 'LINEAR16', sampleRate: 48000 }
-});
+});*/
 
 
 let witClient = new require('node-wit').Wit({

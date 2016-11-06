@@ -29,6 +29,7 @@
     "node-wit": "^4.1.0",
     "particle-api-js": "^6.3.0",
     "randomstring": "^1.1.5",
+    "watson-developer-cloud": "^2.8.1",
     "wav": "^1.0.1"
   }
 }
